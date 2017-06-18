@@ -1,0 +1,115 @@
+class
+tìm hiểu về: 
+- content_tag
+- debugger
+- flash
+- params stronger
+- 
+
+
+cac buoc gop new code
+1 -  Merged
+2 - checkout master
+3 - pull origin master
+4 - checkout toi branch dang lam gio
+5 - rebase master
+6 - check status
+7 - xu ly conflict
+8 - add -A
+9 - rebase --continue
+10 - (khong the --continue) su dung rebase --skip
+11 - check status
+
+Khi dung o vi tri master neu ta checkout -b thi branch moi se khong co commit nao
+nguoc lai khi o vi tri 1 branch # master thi checkout -b se kem theo commit tu branch cu
+
+Lỗi khi sử dụng bootstrap
+khi sử dụng i18n trường hợp sử dụng trong submit nên để như sau
+t(".name") : name là tên trường trong file .yml
+nếu để t ".name" bootstrap với btn k load
+
+convention:
+
+def create
+  # bad
+  @user = User.new user_params
+  if @user.save
+    # something
+  else
+    #something
+  end
+end
+
+def create
+  # good
+  @user = User.new user_params
+  
+  if @user.save
+    # something
+  else
+    #something
+  end
+end
+
++  private
+ +
+ +  def user_params
+ +  end
+
+
+Tim hiểu về: before_action : nó sẽ gọi đến method trong before_action trước, và kiểm tra nếu thỏa mãn thì nó sẽ gọi đến phương thức kia, còn k thì chỉ đến method trong before_action rồi dừng lại		
+Phân biệt find và find_by 
+
+su dung url: signup_path de khi nhan vao submit neu bi loi url k thay doi
+<%= form_for @user, url: signup_path do |f| %>
+
+Can than khi viet trong routes cac giao thuc post, get,...
+
+Tìm hiểu về form_f
+
+Tìm hiểu về before_action (sử dụng vd: before_action find_user)
+Tìm hiểu về SessionsHelper
+=======================================8-6-2017=======================================================
+Trong sessionhelper
+method: log_in user =>>>>>>>>>>> session[:user_id] = user.id
+ban đầu nó lấy user.id và mã hóa nó lưu vào cookie tạm thời 
+các trang khác sẽ sử dụng session[:user_id] để kiểm tra người dùng đã đăng nhập
+
+Trong class SessionController
+trong method create session
+nếu kiểm tra mk và email thành công
+ta sẽ gán cookie cho nó
+
+--Current user: dùng để định nghĩa người dùng đã đăng nhập và đang sử dụng. Gợi ý nên sử dụng find_by : User.find_by id: session[:user_id]
+để không phải truy xuất dữ liệu nhiều lần nên ta sẽ gán cho no Diệu
+if @current_user.nil?
+@current_user = User.find_by :id session[:user_id]
+else
+@current_user
+end
+
+
+--Tìm hiểu lại: local, global, class, constant - variable
+
+Tìm hiểu toán tử: ||= (hoặc bằng)
+
+current_user : @current_user ||= User.find_by id: session[:user_id] kiem tra current user dang dang nhap
+logged_in?: kiem tra user da logged in chua true neu roi, va nguoc lai la false
+
+====Remember me
+cac tu khoa: token and digest
+
+Cac buoc thuc hien
+1 - Tao ra random chuoi ky tu cua nguoi dung : day la remeber token
+2 - Luu no vao cookie trinh duyet va se het han trong 1 thoi gian xac dinh
+3 - Luu hash digest vao co so du lieu
+4 - 
+5 - Khi nguoi dung su dung trinh duyet va vao dia chi web, trinh duyet se check ket qua trong cookie va ket qua tai co so du lieu
+
+==== Cach them 1 cot trong database su dung migration
+
+$ rails g migration <ten migrate> tencot:<kieu dulieu>
+trong do <ten migrate> duoc viet voi cau truc sau
+add_<ten cot>_to_<ten model>
+$ rails db:migrate
+

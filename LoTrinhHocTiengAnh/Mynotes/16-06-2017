@@ -1,0 +1,28 @@
+class
+allow_nil = true : cho phep de trong
+khi su dung before_action can chu y den sap xep
+
+store_location: dung de luu lai vi tri truoc khi dang nhap
+def store_location
+    session[:forwarding_url] = request.original_url if request.get?
+  end
+
+kem theo su dung: redirect_back_or
+def redirect_back_or(default)
+    redirect_to(session[:forwarding_url] || default)
+    session.delete(:forwarding_url)
+  end
+
+trong create session
+def create
+    user = User.find_by(email: params[:session][:email].downcase)
+    if user && user.authenticate(params[:session][:password])
+      log_in user
+      params[:session][:remember_me] == '1' ? remember(user) : forget(user)
+      redirect_back_or user
+    else
+      flash.now[:danger] = 'Invalid email/password combination'
+      render 'new'
+    end
+  end
+

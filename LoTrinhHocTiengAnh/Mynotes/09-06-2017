@@ -1,0 +1,139 @@
+class variable and class method
+
+class variable: ex: @@<name variable>
+chỉ được sử dụng nội bộ trong class
+VD:
+#ERROR:
+class ClassVariable
+   price = 1
+   @@price = 2
+   def self.method
+	print price
+   end
+end
+
+Test.method
+#error: undefined local variable or method
+class method: ex: def sefl.<name method>
+chỉ được sử dụng các class variable
+
+-- Su dung phuong thuc urlsafe_base64 tu module SecureRandom
+VD: SecureRandom.urlsafe_base64
+no se sinh ra 1 chuoi 22ky tu
+
+===flash and flash.now
+flash: dùng cho trường hợp redirect_to
+flash.now: dùng trong trường hợp chuyển tới 1 render view
+trong trường hợp sử dụng flash.now khi sử dụng redirect_to thì nó sẽ không hoạt động 
+
+===Tìm hiểu render và redirect_to
+
+============================================Remember me=====================================================
+def User.digest(string)
+    cost = ActiveModel::SecurePassword.mincost ? BCrypt::Engine::MINCOST :
+                                                  BCrypt::Engine.cost
+    BCrypt::Password.create(string, cost: cost)
+  end
+- hàm digest là class method
+- nó mã hóa chuỗi token từ method new_token
+
+def User.new_token
+  SecureRandom.urlsafebase64
+end
+
+method remember dùng để lưu giá trị sau khi mã hóa token vào database
+def remember
+    self.remember_token = User.new_token
+    updateattribute(:remember_digest, User.digest(remember_token))
+  end 
+
+method authenticated dùng để kiểm tra chuỗi mã hóa token từ trình duyệt và chuỗi mã hóa lưu trong database có giống nhau k
+def authenticated?(remember_token)
+    BCrypt::Password.new(remember_digest).ispassword?(remember_token)
+  end 
+
+============================ class << self
+gia su co cac method User.method1, User.method2,... ta co the viet gon lai, chuan convention Framgia
+class << self
+
+	def method1
+	end
+
+	def method2
+	end
+end
+
+============================variable <toan tu 1> ? <toan tu 2> : <toan tu 3>
+co the viet lai nhu sau:
+if <toan tu 1>
+	variable = <toan tu 2>
+else
+	variable = <toan tu 3>
+end
+
+==================attr_accessor
+tuong tu nhu set get trong cac ngon ngu lap trinh khac
+muc dich cua viec tao thuoc tinh attr_accessor cho variable nham muc dich o noi khac co the get va set duoc cho no
+va khi su dung no thi khi su dung nen goi nhu sau. self.<variable>
+vd: remember (luu token da ma hoa vao database)
+attr_accessor :remember_token
+# luu vao co so du lieu, row: remember_digest, User.digest remember_token => goi ham ma hoa
+def remember
+	self.remember_token = User.new_token # gan token dc tao ra tu method new_token
+	update_attribute :remember_digest, User.digest remember_token  
+end
+
+==================cookie
+Trong cookie du lieu luu tru kieu Hash vi vay nen su dung cookie nhu su dung voi Hash
+==================BCrypt::Password.new(self.remember_digest.is_password? remember_token)
+tim hieu remember_digest
+
+=================Current user:
+if (user_id = session[:user_id])
+      @current_user ||= User.find_by(id: user_id)
+    elsif (user_id = cookies.signed[:user_id])
+      user = User.find_by(id: user_id)
+      if user && user.authenticated?(cookies[:remember_token])
+        log_in user
+        @current_user = user
+      end
+    end
+
+
+
+
+Cach su dung template layout
+1 - Tat ca cac file style, javascript luu vao assets
+2 - su dung getall.css, getall.js de goi cac file js va css trong vendor
+3 - Nen tao cac thu muc admin, client o trong thu muc app/assets tai day su dung getall.css, getall.js de goi duoi vendor
+4 - 
+
+
+======================pagination
+gem "bootstrap-will_paginate", "1.0.0"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
